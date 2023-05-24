@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IDAlGenerico<TEntity> where TEntity : class
+    public interface IDALGenerico<TEntity> where TEntity : class
     {
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
