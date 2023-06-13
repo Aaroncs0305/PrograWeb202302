@@ -108,6 +108,12 @@ namespace BackEnd.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Category category = new Category
+            {
+                CategoryId = id
+            };
+
+            categoryDAL.Remove(category);
         }
 
         #endregion
