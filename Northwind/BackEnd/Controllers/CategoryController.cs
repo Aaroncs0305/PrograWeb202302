@@ -56,14 +56,7 @@ namespace BackEnd.Controllers
 
             foreach (var category in categories) 
             {
-                models.Add(
-                        new CategoryModel
-                        {
-                            CategoryId = category.CategoryId,
-                            CategoryName = category.CategoryName,
-                            Description = category.Description
-                        }
-                  );
+                models.Add(Convertir(category));
             }
 
             return new JsonResult(models);
@@ -75,7 +68,7 @@ namespace BackEnd.Controllers
         {
             Category category = categoryDAL.Get(id);
 
-            return new JsonResult(category);
+            return new JsonResult(Convertir(category));
         }
 
         #endregion
