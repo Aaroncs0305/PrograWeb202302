@@ -73,7 +73,7 @@ namespace FrontEnd.Helpers
         #endregion
 
 
-        #region Add
+        #region Create
 
         public CategoryViewModel Add(CategoryViewModel category)
         {
@@ -84,6 +84,24 @@ namespace FrontEnd.Helpers
             CategoryViewModel categoryAPI = JsonConvert.DeserializeObject<CategoryViewModel>(content);
 
             return categoryAPI;
+        }
+
+        #endregion
+
+
+        #region Delete
+
+        public CategoryViewModel Delete(int id)
+        {
+            CategoryViewModel category = new CategoryViewModel();
+
+            HttpResponseMessage responseMessage = repository.DeleteResponse("api/Category/" + id);
+
+            //String content = responseMessage.Content.ReadAsStringAsync().Result;
+
+            //category = JsonConvert.DeserializeObject<CategoryViewModel>(content);
+
+            return category;
         }
 
         #endregion
