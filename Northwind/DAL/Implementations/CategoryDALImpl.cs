@@ -81,7 +81,7 @@ namespace DAL.Implementations
 
             NorthWindContext northWindContext = new NorthWindContext();
 
-            resultado = await northWindContext.Sp_GetAllCategories_Results
+            resultado = await northWindContext.sp_GetAllCategories_Results
                               .FromSqlRaw(sql)
                               .ToListAsync();
 
