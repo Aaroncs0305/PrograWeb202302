@@ -144,7 +144,7 @@ namespace FrontEnd.Controllers
 
             categoryHelper.Edit(cat);
 
-            return View(category);
+            return RedirectToAction("Details", new {id = cat.CategoryId});
         }
     }
 }

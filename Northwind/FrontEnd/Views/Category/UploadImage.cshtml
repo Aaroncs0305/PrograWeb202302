@@ -19,16 +19,6 @@
                 <input type="file" asp-for="Picture" class="form-control" name="files" />
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
-
-            @{
-                if (Model.Picture != null)
-                {
-                    string imageBase64 = Convert.ToBase64String(Model.Picture);
-                    string imageSrc = string.Format("data:ContentType = image/jpg;base64,{0}", imageBase64);
-
-                    <img src="@imageSrc" width="500" height="500"/>
-                }
-            }
            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
