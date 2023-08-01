@@ -1,5 +1,7 @@
 ﻿using DAL.Interfaces;
 using Entities.Entities;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +20,28 @@ namespace DAL.Implementations
         {
             try
             {
-                using (unidad = new UnidadDeTrabajo<Category>(new NorthWindContext()))
+                string sql = "exec [dbo].[sp_AddCategory] @CategoryName, @Description";
+                var param = new SqlParameter[]
                 {
-                    unidad.genericDAL.Add(entity);
-                    unidad.Complete();
-                }
+                    new SqlParameter()
+                    {
+                        ParameterName = "@CategoryName",
+                        SqlDbType = System.Data.SqlDbType.VarChar,
+                        Direction = System.Data.ParameterDirection.Input,
+                        Value= entity.CategoryName
+                    },
+                     new SqlParameter()
+                    {
+                        ParameterName = "@Description",
+                        SqlDbType = System.Data.SqlDbType.VarChar,
+                        Direction = System.Data.ParameterDirection.Input,
+                        Value= entity.Description
+                    }
+                };
+
+                NorthWindContext northWindContext = new NorthWindContext();
+
+                int resultado = northWindContext.Database.ExecuteSqlRaw(sql, param);
 
                 return true;
             }
@@ -42,23 +61,41 @@ namespace DAL.Implementations
             throw new NotImplementedException();
         }
 
-        public Category Get(int id)
+        public async Task<Category> Get(int id)
         {
             Category category = null;
             using (unidad = new UnidadDeTrabajo<Category>(new NorthWindContext()))
             {
-                category = unidad.genericDAL.Get(id);
+                category = await unidad.genericDAL.Get(id);
             }
 
             return category;
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<Category>> GetAll()
         {
-            IEnumerable<Category> categories = null;
-            using (unidad = new UnidadDeTrabajo<Category>(new NorthWindContext())) 
+            List<Category> categories = new List<Category>();
+            List<sp_GetAllCategories_Result> resultado;
+
+            string sql = "[dbo].[sp_GetAllCategories]";
+
+            NorthWindContext northWindContext = new NorthWindContext();
+
+            resultado = await northWindContext.sp_GetAllCategories_Results
+                              .FromSqlRaw(sql)
+                              .ToListAsync();
+
+            foreach (var item in resultado)
             {
-                categories = unidad.genericDAL.GetAll();
+                categories.Add(
+                    new Category
+                    {
+                        CategoryId= item.CategoryId,
+                        CategoryName= item.CategoryName,
+                        Description= item.Description,
+                        Picture= item.Picture
+                    }
+                    );
             }
 
             return categories;
