@@ -12,6 +12,11 @@ namespace FrontEnd.Helpers
              repository = new ServiceRepository();
         }
 
+        public CategoryHelper(string token)
+        {
+            repository = new ServiceRepository(token);
+        }
+
         #region GetAll
 
         public List<CategoryViewModel> GetAll()

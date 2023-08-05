@@ -12,6 +12,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Connection String
 
+builder.Services.AddDbContext<NorthWindContext>(options =>
+                        options.UseSqlServer(
+                            builder
+                            .Configuration
+                            .GetConnectionString("DefaultConnection")));
+
+string connString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+Util.ConnectionString = connString;
+
 #region Identity
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -51,15 +61,7 @@ builder.Services.AddAuthentication(options =>
 
 #endregion
 
-builder.Services.AddDbContext<NorthWindContext>(options =>
-                        options.UseSqlServer(
-                            builder
-                            .Configuration
-                            .GetConnectionString("DefaultConnection")));
 
-string connString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-Util.ConnectionString = connString;
 
 #endregion
 

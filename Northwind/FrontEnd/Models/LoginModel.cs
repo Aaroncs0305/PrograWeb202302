@@ -8,11 +8,15 @@ namespace Entities.Authentication
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "User Name is required")]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "Password is required")]
+        [Required]
+        [Display(Name = "Usuario")]
+        public string UserName { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
+        public bool RememberLogin { get; set; }
+        public string ReturnUrl { get; set; }
 
         public List<string> Roles { get; set; }
     }
