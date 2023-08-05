@@ -15,6 +15,7 @@ namespace FrontEnd.Helpers
         {
             Client = new HttpClient();
             Client.BaseAddress = new Uri("http://localhost:5070");
+            // obtener el header del appsettings y luego pasarlo a la linea de abajo sería la buena practica
             Client.DefaultRequestHeaders.Add("ApiKey", "c42c1e5d");
         }
 

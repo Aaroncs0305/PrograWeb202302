@@ -1,11 +1,34 @@
 using BackEnd.Middleware;
+using Entities.Authentication;
 using Entities.Entities;
 using Entities.Utilities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region Connection String
+
+#region Identity
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+})
+  .AddEntityFrameworkStores<NorthWindContext>()
+  .AddDefaultTokenProviders();
+
+#endregion
+
+#region JWT
+
+
+
+#endregion
 
 builder.Services.AddDbContext<NorthWindContext>(options =>
                         options.UseSqlServer(
